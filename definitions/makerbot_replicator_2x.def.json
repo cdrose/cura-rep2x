@@ -1,0 +1,84 @@
+{
+    "id": "makerbot_replicator_2x",
+    "version": 2,
+    "name": "MakerBot Replicator 2X",
+    "inherits": "fdmprinter",
+    "metadata": {
+        "visible": true,
+        "author": "TheUltimakerCommunity",
+        "manufacturer": "MakerBot",
+        "category": "Other",
+        "file_formats": "application/x3g",
+        "platform_offset": [ 0, 0, 0],
+        "has_materials": true,
+        "machine_extruder_trains": {
+            "0": "makerbot_rep2x_1st",
+            "1": "makerbot_rep2x_2nd"
+        }
+    },
+    "settings":
+    {
+        "machine_settings":
+        {
+            "machine_x3g_variant": {
+                "label": "X3G Variant",
+                "description": "Variant of X3G type",
+                "type": "str",
+                "default_value": "r2"
+            }
+        }
+    },
+    "overrides": {
+        "machine_name": { "default_value": "MakerBot Replicator 2X" },
+        "machine_gcode_flavor": {
+            "default_value": "Reprap"
+        },
+        "machine_width": {
+            "default_value": 246,
+            "steps_per_mm": 88.573186,
+            "endstop_is_max": 1
+        },
+        "machine_depth": {
+            "default_value": 152,
+            "steps_per_mm": 88.573186,
+            "endstop_is_max": 1
+        },
+        "machine_height": {
+            "default_value": 155,
+            "steps_per_mm": 400,
+            "endstop_is_max": 0
+        },
+        "gantry_height": {
+            "default_value": 60,
+            "comment": "This needs to be filled in"
+        },
+        "machine_nozzle_head_distance": {
+            "default_value": 3,
+            "comment": "This needs to be filled in"
+        },
+        "machine_heat_zone_length": {
+            "default_value": 16,
+            "comment": "This needs to be filled in"
+        },
+        "machine_heated_bed": { "default_value": true },
+        "machine_max_feedrate_x": { "default_value": 300 },
+        "machine_max_feedrate_y": { "default_value": 300 },
+        "machine_max_feedrate_z": { "default_value": 19.5 },
+        "machine_max_feedrate_e": { "default_value": 80 },
+        "retraction_amount": { "default_value": 1.3 },
+        "retraction_speed": { "default_value": 50 },
+        "machine_extruder_count": { "default_value": 2 },
+        "prime_blob_enable": { "enabled": true, "default_value": true, "value": "resolveOrValue('print_sequence') != 'one_at_a_time'" },
+        "prime_tower_wipe_enabled": { "default_value": false },
+        "prime_tower_position_x": { "default_value": -117 },
+        "prime_tower_position_y": { "default_value": -70 },
+        "material_diameter": { "default_value": 1.75 },
+        "machine_center_is_zero": { "default_value": true },
+        "machine_start_gcode": {
+            "default_value": ";(-- START GCODE Rep2x --)\nM136 ;(enable build)\nM73 P0 ;(set build percentage to zero)\nG162 X Y F2000 ;(home XY axes maximum, standard feedrate 2000 mm/min)\nG161 Z F900 ;(home Z axis minimum, standard feedrate 900 mm/min)\nG92 X0 Y0 Z-5 A0 B0 ;(set Z to -5)\nG1 Z0.0 F900 ;(move Z to '0', standard feedrate 900 mm/min)\nG161 Z F100 ;(home Z axis minimum, standard feedrate 100 mm/min)\nM132 X Y Z A B ;(Recall stored home offsets for XYZAB axis)\n; set start position\nG92 X152 Y72 Z0 A0 B0 ;(set zero for X and Y)\nG1 X-112 Y-73 Z150 F3300.0 ;(move to waiting position, standard feedrate 3300 mm/min)\nG130 X20 Y20 A20 B20 ;(Lower stepper Vrefs while heating)\nM140 S{material_bed_temperature} ;(Set build platform temperature in degrees Celsuis)\nM134 T0 ;(Wait for platform to heat up)\nM135 T0 ;(Set the extruder as the current Extruder)\nM104 S{material_print_temperature} T0 ;(Set extruder temperature in degrees Celsius)\nM133 T0 ;(Wait for extruder to heat up)\nG130 X127 Y127 A127 B127 ;(Set Stepper motor Vref to defaults)\nG1 X105.400 Y-74.000 Z0.270 F9000.000 ;(Extruder Prime Dry Move)\nG1 X-112 Y-73 Z0.270 F1800.000 E25.000 ;(Extruder Prime Start)\nG92 A0 B0 ;(Reset after prime)\nG1 Z0.000000 F1000\nG1 X-112.0 Y-73.0 Z0.0 F1000 E0.0\nG92 E0\n;(-- END OF START GCODE --)"
+        },
+        "machine_end_gcode": {
+            "default_value": ";(-- END GCODE --)\nM18 A B ;(Turn off A and B Steppers)\nG1 Z{machine_height} F900 ;(Move Z to machine_height, feedrate 900 mm/min)\nG162 X Y F2000 ;(Home Z Axis Maximum, feedrate 2000 mm/min)\nM18 X Y Z ;(Turn off steppers after a build)\nM140 S0 T0 ;(Cool Bed)\nM104 S0 T0 ;(Cool Right extruder)\nM73 P100 ;(end  build progress)\nM70 P5 ;(We <3 Making Things!)\nM72 P1 ;( Play Ta-Da song )\nM137 ;(build end notification)"
+        }
+    }
+}
